@@ -1,0 +1,29 @@
+server {
+    listen       8098;
+    server_name  lvmc.itouchchina.com;
+    root   /Users/yangqing/Documents/php/lvmc;
+    autoindex on;
+    index index.php;
+
+    location / {
+
+        try_files $uri $uri/ /index.php;
+
+        location = /index.php {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+    }
+
+    location ~ \.php$ {
+        return 444;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        root   /Users/yangqing/Documents/php/lvmc/public;
+        expires max;
+        log_not_found off;
+        access_log off;
+    }
+}
